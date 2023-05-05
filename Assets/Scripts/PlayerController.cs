@@ -1,14 +1,22 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using StarterAssets;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public Transform ItemHoldAnchor;
+    
+    private StarterAssetsInputs _input;
 
-    private void Awake()
+    private void Start()
     {
+        _input = GetComponent<StarterAssetsInputs>();
+    }
+
+    private void Update()
+    {
+        if (_input.grab)
+        {
+            Debug.Log("Works");
+        }
     }
 }
