@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5477148643215754307}
   - component: {fileID: -1635662956364202968}
   - component: {fileID: 7403717829678153673}
+  - component: {fileID: 3121169654190254096}
   m_Layer: 10
   m_Name: Item
   m_TagString: Untagged
@@ -131,11 +132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f146ccaf5384c14c8ab8b2e585ada31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableUiPrefab: {fileID: 7173696574062858864, guid: 3a631739e76553448a7775c6e58b949b,
-    type: 3}
   anchor: {fileID: 6699471762873374432}
-  rigidbody: {fileID: 0}
-  type: 0
+  Outline: {fileID: 3121169654190254096}
+  Collider: {fileID: 7403717829678153673}
+  Rigidbody: {fileID: -1635662956364202968}
 --- !u!54 &-1635662956364202968
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -165,6 +165,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.3, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3121169654190254096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911080641191477933}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineWidth: 6
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6779276554194746931
 GameObject:
   m_ObjectHideFlags: 0

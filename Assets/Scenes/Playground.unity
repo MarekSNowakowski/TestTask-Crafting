@@ -2007,6 +2007,7 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  grab: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -2023,6 +2024,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHoldAnchor: {fileID: 7224233492730437624}
+  CameraAnchor: {fileID: 8338988565591873055}
+  GrabDistance: 3
+  LerpDuration: 5
 --- !u!4 &150743250594535782
 Transform:
   m_ObjectHideFlags: 0
