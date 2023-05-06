@@ -9,9 +9,9 @@ public class CraftingStation : MonoBehaviour
     private TextMeshPro _ingredientsList = null;
     [SerializeField]
     private TextMeshPro _result = null;
-
+    
     [SerializeField]
-    private List<RecipeScriptableObject> recipes;
+    private List<RecipeScriptableObject> _recipes = null;
 
     private HashSet<Item> _items = new HashSet<Item>();
     private float _minimumIngredients;
@@ -19,7 +19,7 @@ public class CraftingStation : MonoBehaviour
     private void Awake()
     {
         RefreshStatus();
-        _minimumIngredients = recipes.Min(x => x.Ingridients.Count);
+        _minimumIngredients = _recipes.Min(x => x.Ingredients.Count);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -84,17 +84,15 @@ public class CraftingStation : MonoBehaviour
     {
         if (_items.Count > 0)
         {
-            foreach (RecipeScriptableObject recipe in recipes)
+            foreach (RecipeScriptableObject recipe in _recipes)
             {
-                if (_items.Count == recipe.Ingridients.Count)
+                if (_items.Count == recipe.Ingredients.Count)
                 {
-                    foreach (Item item in recipe.Ingridients)
-                    {
-                        if (_items.All(x => x.Name != item.Name))
-                        {
-                            break;
-                        }
+                    // Check if items in crafting stations match ingredients in each recipe
+                    IEnumerable<Item> matchingItems = recipe.Ingredients.Where(x => _items.Any(y => y.Name == x.Name));
 
+                    if (matchingItems.Count() == recipe.Ingredients.Count)
+                    {
                         return recipe.Result;
                     }
                 }

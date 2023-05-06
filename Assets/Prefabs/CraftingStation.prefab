@@ -341,7 +341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ingredientsList: {fileID: 3671489050492831361}
   _result: {fileID: 7576922760870139446}
-  recipes:
+  _recipes:
   - {fileID: 11400000, guid: 6243dda93dad58c478f9dd5e093f7715, type: 2}
   - {fileID: 11400000, guid: d3587b423bdf4fd4697fa5f190e26889, type: 2}
   - {fileID: 11400000, guid: 062cfae56a1f4a84094aab360a089bae, type: 2}
