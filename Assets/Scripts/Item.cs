@@ -44,7 +44,7 @@ public class Item : MonoBehaviour
         _sphereCollider.radius = _playerDetectionRadius;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // if player is able to grab, this value will be changed before late update
         _ableToGrab = false;    

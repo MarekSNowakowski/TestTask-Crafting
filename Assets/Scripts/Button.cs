@@ -24,7 +24,7 @@ public class Button : MonoBehaviour
 
     private ButtonState _buttonState;
 
-    public void Update()
+    public void FixedUpdate()
     {
         _buttonState = ButtonState.Default;
     }
