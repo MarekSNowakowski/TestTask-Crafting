@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: -1635662956364202968}
   - component: {fileID: 7403717829678153673}
   - component: {fileID: 3121169654190254096}
+  - component: {fileID: 1779042143622702423}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -134,12 +135,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anchor: {fileID: 409036986306223917}
-  SphereCollider: {fileID: 7736608534798272765}
-  Outline: {fileID: 3121169654190254096}
   Collider: {fileID: 7403717829678153673}
   Rigidbody: {fileID: -1635662956364202968}
+  Name: ITEM
+  Outline: {fileID: 3121169654190254096}
   AbleToGrabOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  AbleToGrabOutlineWidth: 6
   PlayerNearOutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  PlayerNearOutlineWidth: 2
+  SphereCollider: {fileID: 7736608534798272765}
   PlayerDetectionRadius: 10
 --- !u!54 &-1635662956364202968
 Rigidbody:
@@ -188,6 +192,19 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!135 &1779042143622702423
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911080641191477933}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6779276554194746931
 GameObject:
   m_ObjectHideFlags: 0

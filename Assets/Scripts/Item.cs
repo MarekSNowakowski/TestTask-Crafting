@@ -6,6 +6,7 @@ public class Item : MonoBehaviour
     public Transform Anchor;
     public Collider Collider;
     public Rigidbody Rigidbody;
+    public string Name;
 
     [Header("Outlining")]
     public Outline Outline;

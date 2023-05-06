@@ -301,7 +301,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2725988355893275538}
   - component: {fileID: 4855081838296629556}
-  m_Layer: 0
+  - component: {fileID: 7216438059042603314}
+  m_Layer: 2
   m_Name: CraftingStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,10 +339,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e221f38ac0cb84ab6a4b06b6e02d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resultSlot: {fileID: 0}
   _ingredientsList: {fileID: 3671489050492831361}
   _result: {fileID: 7576922760870139446}
-  receipts: {fileID: 11400000, guid: 4f919c3ef9ecaff4b8aba95ad6600c4f, type: 2}
+--- !u!65 &7216438059042603314
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211746858942706972}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3605645, y: 0.9335308, z: 1.2362776}
+  m_Center: {x: -0.39696705, y: 1.3175709, z: 0.5117104}
 --- !u!1 &1889912324674977241
 GameObject:
   m_ObjectHideFlags: 0
