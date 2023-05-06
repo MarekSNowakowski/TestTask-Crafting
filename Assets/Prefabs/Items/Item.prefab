@@ -146,7 +146,6 @@ MonoBehaviour:
   _sphereCollider: {fileID: 7736608534798272765}
   _playerDetectionRadius: 10
   _throwTime: 2
-  <Thrown>k__BackingField: 0
 --- !u!54 &-1635662956364202968
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -202,7 +201,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911080641191477933}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.1
