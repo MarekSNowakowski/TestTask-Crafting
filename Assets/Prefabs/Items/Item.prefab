@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3343077757312363700}
   - component: {fileID: 248177857072031296}
   - component: {fileID: 4248045986660693495}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: UpDebug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: -1635662956364202968}
   - component: {fileID: 7403717829678153673}
   - component: {fileID: 3121169654190254096}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,6 +117,7 @@ Transform:
   m_Children:
   - {fileID: 5371130398281907397}
   - {fileID: 6699471762873374432}
+  - {fileID: 5497972697582356456}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -132,10 +133,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f146ccaf5384c14c8ab8b2e585ada31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anchor: {fileID: 6699471762873374432}
+  Anchor: {fileID: 409036986306223917}
+  SphereCollider: {fileID: 7736608534798272765}
   Outline: {fileID: 3121169654190254096}
   Collider: {fileID: 7403717829678153673}
   Rigidbody: {fileID: -1635662956364202968}
+  AbleToGrabOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  PlayerNearOutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  PlayerDetectionRadius: 10
 --- !u!54 &-1635662956364202968
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -194,7 +199,7 @@ GameObject:
   - component: {fileID: 5371130398281907397}
   - component: {fileID: 543877185478785378}
   - component: {fileID: 857492308515110966}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6699471762873374432}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -298,3 +303,48 @@ Transform:
   m_Father: {fileID: 409036986306223917}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: -90}
+--- !u!1 &8193298305907191860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5497972697582356456}
+  - component: {fileID: 7736608534798272765}
+  m_Layer: 2
+  m_Name: TriggerCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5497972697582356456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193298305907191860}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 409036986306223917}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7736608534798272765
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193298305907191860}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

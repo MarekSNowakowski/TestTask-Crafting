@@ -53,14 +53,14 @@ public class PlayerController : MonoBehaviour
         {
             if (_moveTime < LerpDuration)
             {
-                _grabbedItem.transform.position = Vector3.Lerp(_grabbedItem.transform.position, ItemHoldAnchor.position, _moveTime / LerpDuration);
+                _grabbedItem.Anchor.position = Vector3.Lerp(_grabbedItem.Anchor.position, ItemHoldAnchor.position, _moveTime / LerpDuration);
             }
             else
             {
                 _moveTime = 0;
             }
 
-            _grabbedItem.transform.rotation = ItemHoldAnchor.rotation;
+            _grabbedItem.Anchor.rotation = ItemHoldAnchor.rotation;
             _moveTime += Time.deltaTime;
         }
         else
