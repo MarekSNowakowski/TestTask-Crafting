@@ -9,12 +9,17 @@ public class CraftingStation : MonoBehaviour
     private TextMeshPro _ingredientsList = null;
     [SerializeField]
     private TextMeshPro _result = null;
+    [SerializeField]
+    private Button button;
+    [SerializeField]
+    private Transform craftedItemAnchor;
     
     [SerializeField]
     private List<RecipeScriptableObject> _recipes = null;
 
     private HashSet<Item> _items = new HashSet<Item>();
     private float _minimumIngredients;
+    private Item _currentRecipe;
 
     private void Awake()
     {
@@ -39,13 +44,24 @@ public class CraftingStation : MonoBehaviour
             RefreshStatus();
         }
     }
-    
+
+    private void OnEnable()
+    {
+        button.ButtonPressed += OnButtonPressed;
+    }
+
+    private void OnDisable()
+    {
+        button.ButtonPressed -= OnButtonPressed;
+    }
+
     private void RefreshStatus()
     {
         if (_items.Count == 0)
         {
             _ingredientsList.text = "Waiting for ingredients...";
             _result.text = "";
+            _currentRecipe = null;
         }
         else
         {
@@ -63,6 +79,8 @@ public class CraftingStation : MonoBehaviour
             if (_items.Count < _minimumIngredients)
             {
                 _result.text = "Not enough items";
+                _currentRecipe = null;
+
             }
             else
             {
@@ -71,10 +89,12 @@ public class CraftingStation : MonoBehaviour
                 if (result != null)
                 {
                     _result.text = result.Name;
+                    _currentRecipe = result;
                 }
                 else
                 {
-                    _result.text = "Wrong items";    
+                    _result.text = "Wrong items";
+                    _currentRecipe = null;
                 }
             }
         }
@@ -100,5 +120,21 @@ public class CraftingStation : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void OnButtonPressed()
+    {
+        if (_currentRecipe != null)
+        {
+            foreach (Item item in _items)
+            {
+                Destroy(item.gameObject);
+            }
+
+            Instantiate(_currentRecipe, craftedItemAnchor.position, Quaternion.identity);
+            
+            _items.Clear();
+            RefreshStatus();
+        }
     }
 }

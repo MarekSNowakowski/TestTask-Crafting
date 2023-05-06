@@ -53,6 +53,15 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+            else if (raycastHit.transform.TryGetComponent(out Button button))
+            {
+                button.OnButtonAimed();
+
+                if (_input.interact)
+                {
+                    button.OnButtonPressed();
+                }
+            }
         }
     }
 
