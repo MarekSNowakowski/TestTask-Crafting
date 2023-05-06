@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Transform ItemHoldAnchor;
-    public Transform CameraAnchor;
-    public float GrabDistance = 3f;
-    public float LerpDuration = 5f;
+    [SerializeField]
+    private Transform ItemHoldAnchor;
+    [SerializeField]
+    private Transform CameraAnchor;
+    [SerializeField]
+    private float GrabDistance = 3f;
+    [SerializeField]
+    private float LerpDuration = 5f;
+    [SerializeField]
+    private float throwForce = 300f;
     
     private StarterAssetsInputs _input;
     private Item _grabbedItem;
@@ -35,13 +41,16 @@ public class PlayerController : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent(out Item item))
             {
-                item.OnAbleToGrab();
-                
-                if (_input.grab)
+                if (!item.Thrown)
                 {
-                    _grabbedItem = item;
-                    _grabbedItem.OnGrabStart();
-                    _moveTime = 0;
+                    item.OnAbleToGrab();
+                
+                    if (_input.grab)
+                    {
+                        _grabbedItem = item;
+                        _grabbedItem.OnGrabStart();
+                        _moveTime = 0;
+                    }
                 }
             }
         }
@@ -62,10 +71,22 @@ public class PlayerController : MonoBehaviour
 
             _grabbedItem.Anchor.rotation = ItemHoldAnchor.rotation;
             _moveTime += Time.deltaTime;
+
+            HandleThrow();
         }
         else
         {
             _grabbedItem.OnGrabEnd();
+            _grabbedItem = null;
+        }
+    }
+
+    private void HandleThrow()
+    {
+        if (_input.interact)
+        {
+            _grabbedItem.OnThrowStart();
+            _grabbedItem._rigidbody.AddForce(CameraAnchor.transform.forward * throwForce);
             _grabbedItem = null;
         }
     }

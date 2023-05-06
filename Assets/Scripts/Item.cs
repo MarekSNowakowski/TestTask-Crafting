@@ -1,23 +1,38 @@
+using System.Collections;
 using UnityEngine;
-
 
 public class Item : MonoBehaviour
 {
     public Transform Anchor;
-    public Collider Collider;
-    public Rigidbody Rigidbody;
     public string Name;
+    
+    [SerializeField]
+    private Collider _collider;
+    [SerializeField]
+    public Rigidbody _rigidbody;
 
     [Header("Outlining")]
-    public Outline Outline;
-    public Color AbleToGrabOutlineColor = Color.black;
-    public float AbleToGrabOutlineWidth = 6f;
-    public Color PlayerNearOutlineColor = Color.white;
-    public float PlayerNearOutlineWidth = 2f;
+    [SerializeField]
+    private Outline _outline;
+    [SerializeField]
+    private Color _ableToGrabOutlineColor = Color.black;
+    [SerializeField]
+    private float _ableToGrabOutlineWidth = 6f;
+    [SerializeField]
+    private Color _playerNearOutlineColor = Color.white;
+    [SerializeField]
+    private float _playerNearOutlineWidth = 2f;
 
     [Header("PlayerDetection")]
-    public SphereCollider SphereCollider;
-    public float PlayerDetectionRadius = 10f;
+    [SerializeField]
+    private SphereCollider _sphereCollider;
+    [SerializeField]
+    private float _playerDetectionRadius = 10f;
+
+    [Header("Throwing")]
+    [SerializeField]
+    private float _throwTime = 2f;
+    public bool Thrown { get; private set; }
 
     private bool _ableToGrab;
     private bool _grabbed;
@@ -26,42 +41,51 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
-        SphereCollider.radius = PlayerDetectionRadius;
+        _sphereCollider.radius = _playerDetectionRadius;
     }
 
     private void Update()
     {
-        _ableToGrab = false;
+        // if player is able to grab, this value will be changed before late update
+        _ableToGrab = false;    
     }
 
     private void LateUpdate()
     {
-        if (_ableToGrab || _grabbed)
+        UpdateOutlining();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(PLAYER_TAG)) // Handle player entering detection radius
         {
-            Outline.OutlineColor = AbleToGrabOutlineColor;
-            Outline.OutlineWidth = AbleToGrabOutlineWidth;
-            Outline.enabled = true;
+            _outline.OutlineColor = _playerNearOutlineColor;
+            _outline.OutlineWidth = _playerNearOutlineWidth;
+            _outline.enabled = true;
         }
-        else
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(PLAYER_TAG)) // Handle player leaving detection radius
         {
-            Outline.OutlineWidth = PlayerNearOutlineWidth;
-            Outline.OutlineColor = PlayerNearOutlineColor;
+            _outline.enabled = false;
         }
     }
     
     public void OnGrabStart()
     {
-        Rigidbody.useGravity = false;
-        Rigidbody.angularVelocity = Vector3.zero;
-        Rigidbody.velocity = Vector3.zero;
-        Collider.enabled = false;
+        _rigidbody.useGravity = false;
+        _rigidbody.angularVelocity = Vector3.zero;
+        _rigidbody.velocity = Vector3.zero;
+        _collider.enabled = false;
         _grabbed = true;
     }
 
     public void OnGrabEnd()
     {
-        Rigidbody.useGravity = true;
-        Collider.enabled = true;
+        _rigidbody.useGravity = true;
+        _collider.enabled = true;
         _grabbed = false;
     }
 
@@ -70,21 +94,31 @@ public class Item : MonoBehaviour
         _ableToGrab = true;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnThrowStart()
     {
-        if (other.CompareTag(PLAYER_TAG))
+        OnGrabEnd();
+        StartCoroutine(ThrowCoroutine());
+    }
+
+    private void UpdateOutlining()
+    {
+        if (_ableToGrab || _grabbed)
         {
-            Outline.OutlineColor = PlayerNearOutlineColor;
-            Outline.OutlineWidth = PlayerNearOutlineWidth;
-            Outline.enabled = true;
+            _outline.OutlineColor = _ableToGrabOutlineColor;
+            _outline.OutlineWidth = _ableToGrabOutlineWidth;
+            _outline.enabled = true;
+        }
+        else
+        {
+            _outline.OutlineWidth = _playerNearOutlineWidth;
+            _outline.OutlineColor = _playerNearOutlineColor;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private IEnumerator ThrowCoroutine()
     {
-        if (other.CompareTag(PLAYER_TAG))
-        {
-            Outline.enabled = false;
-        }
+        Thrown = true;
+        yield return new WaitForSeconds(_throwTime);
+        Thrown = false;
     }
 }

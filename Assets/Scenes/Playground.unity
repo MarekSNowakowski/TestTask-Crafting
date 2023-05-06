@@ -2018,6 +2018,7 @@ MonoBehaviour:
   jump: 0
   sprint: 0
   grab: 0
+  interact: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -2037,6 +2038,7 @@ MonoBehaviour:
   CameraAnchor: {fileID: 8338988565591873055}
   GrabDistance: 3
   LerpDuration: 5
+  throwForce: 300
 --- !u!4 &150743250594535782
 Transform:
   m_ObjectHideFlags: 0
