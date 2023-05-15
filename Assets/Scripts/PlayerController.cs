@@ -1,102 +1,119 @@
 using StarterAssets;
+using TestTaskCrafting.Crafting;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace TestTaskCrafting.Player
 {
-    [SerializeField]
-    private Transform ItemHoldAnchor;
-    [SerializeField]
-    private Transform CameraAnchor;
-    [SerializeField]
-    private float GrabDistance = 3f;
-    [SerializeField]
-    private float LerpDuration = 5f;
-    [SerializeField]
-    private float throwForce = 300f;
-    
-    private StarterAssetsInputs _input;
-    private Item _grabbedItem;
-    private float _moveTime;
-
-    private void Start()
+    public class PlayerController : MonoBehaviour
     {
-        _input = GetComponent<StarterAssetsInputs>();
-    }
+        [SerializeField]
+        private Transform _itemHoldAnchor;
+        [SerializeField]
+        private Transform _cameraAnchor;
+        [SerializeField]
+        private float _grabDistance = 3f;
+        [SerializeField]
+        private float _lerpDuration = 5f;
+        [SerializeField]
+        private float _throwForce = 300f;
+        
+        private StarterAssetsInputs _input;
+        private Item _grabbedItem;
+        private float _moveTime;
 
-    private void Update()
-    {
-        if (_grabbedItem == null)
+        private void Awake()
         {
-            HandleItemDetection();
+            _input = GetComponent<StarterAssetsInputs>();
         }
-        else
-        {
-            HandleGrabbedItem();
-        }
-    }
 
-    private void HandleItemDetection()
-    {
-        if (Physics.Raycast(CameraAnchor.position, CameraAnchor.transform.forward, out RaycastHit raycastHit, GrabDistance))
+        private void Update()
         {
-            if (raycastHit.transform.TryGetComponent(out Item item))
+            if (_grabbedItem == null)
             {
-                if (!item.Thrown)
-                {
-                    item.OnAbleToGrab();
-                
-                    if (_input.grab)
-                    {
-                        _grabbedItem = item;
-                        _grabbedItem.OnGrabStart();
-                        _moveTime = 0;
-                    }
-                }
-            }
-            else if (raycastHit.transform.TryGetComponent(out Button button))
-            {
-                button.OnButtonAimed();
-
-                if (_input.interact)
-                {
-                    button.OnButtonPressed();
-                }
-            }
-        }
-    }
-
-    private void HandleGrabbedItem()
-    {
-        if (_input.grab)
-        {
-            if (_moveTime < LerpDuration)
-            {
-                _grabbedItem.Anchor.position = Vector3.Lerp(_grabbedItem.Anchor.position, ItemHoldAnchor.position, _moveTime / LerpDuration);
+                HandleInteraction();
             }
             else
             {
-                _moveTime = 0;
+                HandleGrabbedItem();
             }
-
-            _grabbedItem.Anchor.rotation = ItemHoldAnchor.rotation;
-            _moveTime += Time.deltaTime;
-
-            HandleThrow();
         }
-        else
-        {
-            _grabbedItem.OnGrabEnd();
-            _grabbedItem = null;
-        }
-    }
 
-    private void HandleThrow()
-    {
-        if (_input.interact)
+        private void HandleInteraction()
         {
-            _grabbedItem.OnThrowStart();
-            _grabbedItem._rigidbody.AddForce(CameraAnchor.transform.forward * throwForce);
-            _grabbedItem = null;
+            if (Physics.Raycast(_cameraAnchor.position, _cameraAnchor.transform.forward, out RaycastHit raycastHit, _grabDistance))
+            {
+                if (raycastHit.transform.TryGetComponent(out IInteractable interactable))
+                {
+                    if (interactable is Item item)
+                    {
+                        HandleItemInteraction(item);
+                    }
+                    else
+                    {
+                        HandleInteraction(interactable);
+                    }
+                }
+            }
+        }
+
+        private void HandleItemInteraction(Item item)
+        {
+            if (!item.Thrown)
+            {
+                item.OnAimedAt();
+                    
+                if (_input.grab)
+                {
+                    _grabbedItem = item;
+                    _grabbedItem.OnInteracted();
+                    _moveTime = 0;
+                }
+            }
+        }
+
+        private void HandleInteraction(IInteractable interactable)
+        {
+            interactable.OnAimedAt();
+
+            if (_input.interact)
+            {
+                interactable.OnInteracted();
+            }
+        }
+
+        private void HandleGrabbedItem()
+        {
+            if (_input.grab)
+            {
+                if (_moveTime < _lerpDuration)
+                {
+                    _grabbedItem.Anchor.position = Vector3.Lerp(_grabbedItem.Anchor.position, _itemHoldAnchor.position, _moveTime / _lerpDuration);
+                }
+                else
+                {
+                    _moveTime = 0;
+                }
+
+                _grabbedItem.Anchor.rotation = _itemHoldAnchor.rotation;
+                _moveTime += Time.deltaTime;
+
+                HandleThrow();
+            }
+            else
+            {
+                _grabbedItem.OnGrabEnd();
+                _grabbedItem = null;
+            }
+        }
+
+        private void HandleThrow()
+        {
+            if (_input.interact)
+            {
+                _grabbedItem.OnThrowStart();
+                _grabbedItem._rigidbody.AddForce(_cameraAnchor.transform.forward * _throwForce);
+                _grabbedItem = null;
+            }
         }
     }
 }

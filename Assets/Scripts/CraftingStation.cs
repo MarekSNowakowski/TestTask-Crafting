@@ -3,138 +3,145 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 
-public class CraftingStation : MonoBehaviour
+namespace TestTaskCrafting.Crafting
 {
-    [SerializeField]
-    private TextMeshPro _ingredientsList = null;
-    [SerializeField]
-    private TextMeshPro _result = null;
-    [SerializeField]
-    private Button button;
-    [SerializeField]
-    private Transform craftedItemAnchor;
-    
-    [SerializeField]
-    private List<RecipeScriptableObject> _recipes = null;
-
-    private HashSet<Item> _items = new HashSet<Item>();
-    private float _minimumIngredients;
-    private Item _currentRecipe;
-
-    private void Awake()
+    public class CraftingStation : MonoBehaviour
     {
-        RefreshStatus();
-        _minimumIngredients = _recipes.Min(x => x.Ingredients.Count);
-    }
+        [SerializeField]
+        private TextMeshPro _ingredientsList = null;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out Item item))
+        [SerializeField]
+        private TextMeshPro _result = null;
+
+        [SerializeField]
+        private Button _button;
+
+        [SerializeField]
+        private Transform _craftedItemAnchor;
+
+        [SerializeField]
+        private List<RecipeScriptableObject> _recipes = null;
+
+        private HashSet<Item> _items = new HashSet<Item>();
+        private float _minimumIngredients;
+        private Item _currentRecipe;
+
+        private void Awake()
         {
-            _items.Add(item);
             RefreshStatus();
+            _minimumIngredients = _recipes.Min(x => x.Ingredients.Count);
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent(out Item item))
+        private void OnTriggerEnter(Collider other)
         {
-            _items.Remove(item);
-            RefreshStatus();
-        }
-    }
-
-    private void OnEnable()
-    {
-        button.ButtonPressed += OnButtonPressed;
-    }
-
-    private void OnDisable()
-    {
-        button.ButtonPressed -= OnButtonPressed;
-    }
-
-    private void RefreshStatus()
-    {
-        if (_items.Count == 0)
-        {
-            _ingredientsList.text = "Waiting for ingredients...";
-            _result.text = "";
-            _currentRecipe = null;
-        }
-        else
-        {
-            // List ingredients
-            string ingredientList = "";
-            
-            foreach (Item item in _items)
+            if (other.TryGetComponent(out Item item))
             {
-                ingredientList += ($" - {item.Name}\n");
+                _items.Add(item);
+                RefreshStatus();
             }
+        }
 
-            _ingredientsList.text = ingredientList;
-
-            // Check for recipes if there is enough ingredients
-            if (_items.Count < _minimumIngredients)
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.TryGetComponent(out Item item))
             {
-                _result.text = "Not enough items";
-                _currentRecipe = null;
+                _items.Remove(item);
+                RefreshStatus();
+            }
+        }
 
+        private void OnEnable()
+        {
+            _button.ButtonPressed += OnButtonPressed;
+        }
+
+        private void OnDisable()
+        {
+            _button.ButtonPressed -= OnButtonPressed;
+        }
+
+        private void RefreshStatus()
+        {
+            if (_items.Count == 0)
+            {
+                _ingredientsList.text = "Waiting for ingredients...";
+                _result.text = "";
+                _currentRecipe = null;
             }
             else
             {
-                Item result = CheckRecipes();
+                // List ingredients
+                string ingredientList = "";
 
-                if (result != null)
+                foreach (Item item in _items)
                 {
-                    _result.text = result.Name;
-                    _currentRecipe = result;
+                    ingredientList += ($" - {item.Name}\n");
+                }
+
+                _ingredientsList.text = ingredientList;
+
+                // Check for recipes if there is enough ingredients
+                if (_items.Count < _minimumIngredients)
+                {
+                    _result.text = "Not enough items";
+                    _currentRecipe = null;
+
                 }
                 else
                 {
-                    _result.text = "Wrong items";
-                    _currentRecipe = null;
-                }
-            }
-        }
-    }
+                    Item result = CheckRecipes();
 
-    private Item CheckRecipes()
-    {
-        if (_items.Count > 0)
-        {
-            foreach (RecipeScriptableObject recipe in _recipes)
-            {
-                if (_items.Count == recipe.Ingredients.Count)
-                {
-                    // Check if items in crafting stations match ingredients in each recipe
-                    IEnumerable<Item> matchingItems = recipe.Ingredients.Where(x => _items.Any(y => y.Name == x.Name));
-
-                    if (matchingItems.Count() == recipe.Ingredients.Count)
+                    if (result != null)
                     {
-                        return recipe.Result;
+                        _result.text = result.Name;
+                        _currentRecipe = result;
+                    }
+                    else
+                    {
+                        _result.text = "Wrong items";
+                        _currentRecipe = null;
                     }
                 }
             }
         }
 
-        return null;
-    }
-
-    private void OnButtonPressed()
-    {
-        if (_currentRecipe != null)
+        private Item CheckRecipes()
         {
-            foreach (Item item in _items)
+            if (_items.Count > 0)
             {
-                Destroy(item.gameObject);
+                foreach (RecipeScriptableObject recipe in _recipes)
+                {
+                    if (_items.Count == recipe.Ingredients.Count)
+                    {
+                        // Check if items in crafting stations match ingredients in each recipe
+                        IEnumerable<Item> matchingItems =
+                            recipe.Ingredients.Where(x => _items.Any(y => y.Name == x.Name));
+
+                        if (matchingItems.Count() == recipe.Ingredients.Count)
+                        {
+                            return recipe.Result;
+                        }
+                    }
+                }
             }
 
-            Instantiate(_currentRecipe, craftedItemAnchor.position, Quaternion.identity);
-            
-            _items.Clear();
-            RefreshStatus();
+            return null;
+        }
+
+        private void OnButtonPressed()
+        {
+            if (_currentRecipe != null)
+            {
+                foreach (Item item in _items)
+                {
+                    Destroy(item.gameObject);
+                }
+
+                Instantiate(_currentRecipe, _craftedItemAnchor.position, Quaternion.identity);
+
+                _items.Clear();
+                RefreshStatus();
+            }
         }
     }
 }

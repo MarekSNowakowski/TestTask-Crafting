@@ -92,6 +92,11 @@ PrefabInstance:
       propertyPath: _type
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5477148643215754307, guid: 53684496fa023664a81087fbc82f2188,
+        type: 3}
+      propertyPath: <Name>k__BackingField
+      value: YELLOW
+      objectReference: {fileID: 0}
     - target: {fileID: 6699471762873374432, guid: 53684496fa023664a81087fbc82f2188,
         type: 3}
       propertyPath: m_LocalRotation.w

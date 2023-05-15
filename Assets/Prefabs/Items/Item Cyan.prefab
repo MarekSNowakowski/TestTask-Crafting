@@ -92,5 +92,10 @@ PrefabInstance:
       propertyPath: _type
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5477148643215754307, guid: 53684496fa023664a81087fbc82f2188,
+        type: 3}
+      propertyPath: <Name>k__BackingField
+      value: CYAN
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53684496fa023664a81087fbc82f2188, type: 3}

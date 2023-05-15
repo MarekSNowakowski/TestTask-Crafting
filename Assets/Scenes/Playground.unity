@@ -2034,11 +2034,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6c3527b8156544a86a5ab0f191f058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemHoldAnchor: {fileID: 7224233492730437624}
-  CameraAnchor: {fileID: 8338988565591873055}
-  GrabDistance: 3
-  LerpDuration: 5
-  throwForce: 300
+  _itemHoldAnchor: {fileID: 7224233492730437624}
+  _cameraAnchor: {fileID: 8338988565591873055}
+  _grabDistance: 3
+  _lerpDuration: 5
+  _throwForce: 300
 --- !u!4 &150743250594535782
 Transform:
   m_ObjectHideFlags: 0

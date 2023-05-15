@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f146ccaf5384c14c8ab8b2e585ada31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Anchor: {fileID: 409036986306223917}
-  Name: ITEM
+  <Anchor>k__BackingField: {fileID: 409036986306223917}
+  <Name>k__BackingField: 
   _collider: {fileID: 7403717829678153673}
   _rigidbody: {fileID: -1635662956364202968}
   _outline: {fileID: 3121169654190254096}
